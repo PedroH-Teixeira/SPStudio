@@ -52,8 +52,8 @@ class LabelCrop(QLabel):
         height_escala = currentQRect_escala.height()
         height_escala_porc = ((100 * height_escala) / self.height)
         height_corte_original = (self.imagem.height() * (height_escala_porc / 100))
-        # Corta a imagem direto da original para não perder a qualidade
-        currentQRect = QRect(x_escala,y_escala,width_corte_original,height_corte_original)
+        # Corta a imagem direto da original para não perder a qualidade "round arredonda o valor"
+        currentQRect = QRect(round(x_escala),round(y_escala),round(width_corte_original),round(height_corte_original))
         print('Qrect 2 aqui',currentQRect)
         # Salva e mostra a imagem novamente
         cropQPixmap = self.imagem.copy(currentQRect)

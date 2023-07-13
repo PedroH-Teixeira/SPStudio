@@ -46,7 +46,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>210</y>
+      <y>200</y>
       <width>351</width>
       <height>20</height>
      </rect>
@@ -62,6 +62,9 @@ color: rgb(255, 0, 0);</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="inputServidor">
@@ -345,7 +348,7 @@ QPushButton:hover {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnCancelar">
+   <widget class="QPushButton" name="btnFechar">
     <property name="geometry">
      <rect>
       <x>215</x>
@@ -428,18 +431,18 @@ QPushButton:hover {
  <resources/>
  <connections>
   <connection>
-   <sender>btnCancelar</sender>
+   <sender>btnFechar</sender>
    <signal>clicked()</signal>
    <receiver>confServidor</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>260</y>
+     <x>287</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
-     <x>246</x>
-     <y>173</y>
+     <x>204</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>

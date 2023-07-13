@@ -1,22 +1,23 @@
+import ctypes
 import os
 import sys
 import time
 import openpyxl
 from threading import Thread
-from datetime import date
-from shutil import copyfile
 
 from camera import Camera
-from crop import LabelCrop
 from planilha import Planilha
 from pastas import Pasta
 from criptografia import Criptografar
+from teste_rede import TesteRede
+from imagem import Imagem
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QPixmap, QIcon
 from templates.designer import *
 from templates.menu import *
 from templates.material import *
-from subprocess import call, run
+from subprocess import call
+
 
 
 #   Abre a parte de Designer Tela Principal
@@ -25,13 +26,13 @@ class App(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         self.menu_conf = None
         super().setupUi(self)
+        ctypes.windll.kernel32.FreeConsole()
 
         Pasta.cria_pastas(self)
         self.criptografia = Criptografar()
 
         # Executa a função de ping no servidor de forma paralela
-        #Thread(target=self.teste_rede, daemon=True).start()
-        self.teste_rede()
+        Thread(target=self.teste_rede, daemon=True).start()
 
         # Testa câmera
         Thread(target=self.teste_camera, daemon=True).start()
@@ -43,6 +44,12 @@ class App(QMainWindow, Ui_MainWindow):
         # Chama a funcão do botão capturar
         self.btnCapturar.clicked.connect(self.capturar)
         self.lineEdit_codigoDeBarras.returnPressed.connect(self.capturar)
+
+        # Chama a funcão do botão voltar
+        self.btnVoltar.clicked.connect(self.voltar)
+
+        # Chama a funcão do botão salvar
+        self.btnSalvar.clicked.connect(self.salvar_imagem)
 
         # Chama janela de menu
         self.actionConfigurar_Servidor.triggered.connect(self.menu_servidor)
@@ -56,7 +63,6 @@ class App(QMainWindow, Ui_MainWindow):
         self.planilha.atualizar_comboBox(self.comboBox_material, r'temp/info/material.xlsx')
         self.comboBox_material.currentIndexChanged.connect(self.set_config_camera)
 
-
     def menu_servidor(self):
         self.menu_conf = AbreMenu_Servidor()
         self.menu_conf.show()
@@ -65,6 +71,19 @@ class App(QMainWindow, Ui_MainWindow):
         self.menu_conf = AbreMenu_Material()
         self.menu_conf.showMaximized()
 
+    def teste_rede(self):
+        x = 0
+        while True:
+            print(fr'Valor de X {x}')
+            teste = TesteRede.testeRede(self)
+            print(fr'Valor de teste {teste}')
+            if teste == 0 and x == 0:
+                Imagem.backup_imagens_rede(self)
+                x = 1
+            if teste == 1:
+                x = 0
+            time.sleep(60)
+
     def teste_camera(self):
         while True:
             teste_camera = str(camera.detectar_camera())
@@ -72,39 +91,13 @@ class App(QMainWindow, Ui_MainWindow):
             if teste_camera == 'Conectada':
                 self.btnCapturar.setIcon(QIcon('imagens/cameraON.png'))
                 self.label_status.setText(f'Câmera {teste_camera}: {nome_camera}')
-                time.sleep(10)
+                self.label_status.setStyleSheet('QLabel {background-color: rgba(131, 131, 131, 50); color: #000000}')
+                time.sleep(15)
             else:
                 self.btnCapturar.setIcon(QIcon('imagens/cameraOFF.png'))
                 self.label_status.setText('Câmera Desconectada')
+                self.label_status.setStyleSheet('QLabel {background-color: rgba(131, 131, 131, 50); color: #000000}')
                 time.sleep(3)
-
-    def teste_rede(self):
-        if os.path.exists(r'temp/info/mapping.txt'):
-            with open(r'temp/info/mapping.txt', 'r') as file:
-                file.seek(0)
-                ler_ip = file.readline().strip()
-                ler_usuario = file.readline().strip()
-
-        if os.path.exists(r'temp/info/password.bin'):
-            with open(r'temp/info/password.bin', 'rb') as file:
-                file.seek(0)
-                ler_senha = file.read()
-                dec_ler_senha = self.criptografia.decodificar_valores(ler_senha)
-
-        caminho_completo_servidor = fr'net use \\{ler_ip} /user:{ler_usuario} {dec_ler_senha}'
-        conectado = call(caminho_completo_servidor)
-        if conectado == 0:
-            self.label_circ_1.setStyleSheet(
-                "background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, "
-                "fy:0.5, stop:0.420455 rgba(0, 255, 0, 255), stop:1 rgba(0, 170, 0, "
-                "255)); border-radius: 12%;")
-            return 0
-        else:
-            self.label_circ_1.setStyleSheet(
-                "background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, "
-                "fy:0.5, stop:0.420455 rgba(255, 0, 0, 255), stop:1 rgba(164, 0, 0, "
-                "255)); border-radius: 12%;")
-            return 1
 
     def set_config_camera(self):
         if camera.detectar_camera() == 'Conectada':
@@ -144,48 +137,22 @@ class App(QMainWindow, Ui_MainWindow):
                 self.imagem = r'temp/img/capt0000.jpg'
                 self.imagem = QPixmap(self.imagem)
                 self.labelImagem.setPixmap(self.imagem)
+                self.cortar_imagem()
 
     def cortar_imagem(self):
-        crop = LabelCrop(self.labelImagem)
-        crop.setScaledContents(True)
-        crop.imagem(r'temp/img/capt0000.jpg')
-        crop.show()
+        Imagem.cortar_imagem(self)
 
     def salvar_imagem(self):
-        try:
-            data_atual = date.today()
-            ano = data_atual.strftime('%Y')
-            meses = ['','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
-            num_mes = data_atual.strftime('%m')
-            mes_atual = meses[int(num_mes)]
-            nome_material = self.comboBox_material.currentText()
-            n_bloco = self.lineEdit_3.text()
-            cm = self.comboBox_espessura.currentText()
-            seq = ''
-            lote = self.lineEdit_codigoDeBarras.text()
-            with open(r'temp/info/mapping.txt', 'r') as file:
-                file.seek(0)
-                ler_ip = file.readline().strip()
-                if ler_ip != '':
-                    if self.teste_rede() == 0:
-                        caminho = fr'\\{ler_ip}/Fotos/Originais/FOTOS - {ano}/{num_mes} - {mes_atual}/' \
-                                  fr'{nome_material}/{nome_material} {n_bloco} {cm}'
-                        if not os.path.exists(caminho):
-                            os.makedirs(caminho)
-                            caminho_imagem = os.path.join(caminho, f'{nome_material} {cm} Bloco {n_bloco} '
-                                                                   f'Chapa {seq} Lote {lote}.jpg')
-                        imagem = r'temp/img/capt0000.jpg'
-                        copyfile(imagem, caminho_imagem)
-        except OSError as erro:
-            print(erro)
-            caminho = fr'Fotos/Originais/FOTOS - {ano}/{num_mes} - {mes_atual}/' \
-                      fr'{nome_material}/{nome_material} {n_bloco} {cm}'
-            if not os.path.exists(caminho):
-                os.makedirs(caminho)
-            caminho_imagem = os.path.join(caminho, f'{nome_material} {cm} Bloco {n_bloco} Chapa {seq} Lote {lote}.jpg')
+        Imagem.salvar_imagem(self)
 
-            imagem = r'temp/img/capt0000.jpg'
-            copyfile(imagem, caminho_imagem)
+
+    def voltar(self):
+        self.lineEdit_codigoDeBarras.clear()
+        self.lineEdit_3.clear()
+        self.lineEdit_7.clear()
+        self.lineEdit_6.clear()
+        self.lineEdit_8.clear()
+        self.lineEdit_9.clear()
 
     def valor_required_lineEdit(self, campo):
         if campo.text() == '':
@@ -240,7 +207,7 @@ class AbreMenu_Servidor(QMainWindow, Ui_confServidor):
         caminho_completo_servidor = fr'net use \\{ip_servidor} /user:{usuario} {senha}'
         conectado = call(caminho_completo_servidor)
 
-        if conectado == 0:
+        if conectado == 0 or ip_servidor == '':
             enc_senha = self.criptografia.codificar_valores(senha)
             dados = f'{ip_servidor}\n{usuario}'
 
@@ -248,12 +215,15 @@ class AbreMenu_Servidor(QMainWindow, Ui_confServidor):
                 file.write(dados)
             with open(r'temp/info/password.bin', 'wb') as file:
                 file.write(enc_senha)
-            self.labelStatusServidor.setText(f'Servidor conectado com sucesso: {ip_servidor}')
+            self.labelStatusServidor.setText(f'Conectado com sucesso: {ip_servidor}')
+            self.labelStatusServidor.setStyleSheet('QLabel {color: #228B22}')
 
         elif conectado == 1:
             self.labelStatusServidor.setText('Servidor não conectado: Informe os dados para conexão.')
+            self.labelStatusServidor.setStyleSheet('QLabel {color: #FF0000}')
         else:
             self.labelStatusServidor.setText('Servidor não conectado: Os dados estão incorretos.')
+            self.labelStatusServidor.setStyleSheet('QLabel {color: #FF0000}')
 
 
 class AbreMenu_Material(QMainWindow, Ui_confMaterial):

@@ -30,13 +30,14 @@ class Ui_confServidor(object):
         self.centralwidget = QtWidgets.QWidget(confServidor)
         self.centralwidget.setObjectName("centralwidget")
         self.labelStatusServidor = QtWidgets.QLabel(self.centralwidget)
-        self.labelStatusServidor.setGeometry(QtCore.QRect(30, 210, 351, 20))
+        self.labelStatusServidor.setGeometry(QtCore.QRect(30, 200, 351, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.labelStatusServidor.setFont(font)
         self.labelStatusServidor.setStyleSheet("background-color:transparent;\n"
 "color: rgb(255, 0, 0);")
         self.labelStatusServidor.setText("")
+        self.labelStatusServidor.setAlignment(QtCore.Qt.AlignCenter)
         self.labelStatusServidor.setObjectName("labelStatusServidor")
         self.inputServidor = QtWidgets.QLineEdit(self.centralwidget)
         self.inputServidor.setGeometry(QtCore.QRect(60, 80, 300, 30))
@@ -145,15 +146,15 @@ class Ui_confServidor(object):
 "}")
         self.btnSalvar.setAutoRepeat(False)
         self.btnSalvar.setObjectName("btnSalvar")
-        self.btnCancelar = QtWidgets.QPushButton(self.centralwidget)
-        self.btnCancelar.setGeometry(QtCore.QRect(215, 235, 145, 40))
-        self.btnCancelar.setMinimumSize(QtCore.QSize(145, 40))
-        self.btnCancelar.setMaximumSize(QtCore.QSize(145, 40))
+        self.btnFechar = QtWidgets.QPushButton(self.centralwidget)
+        self.btnFechar.setGeometry(QtCore.QRect(215, 235, 145, 40))
+        self.btnFechar.setMinimumSize(QtCore.QSize(145, 40))
+        self.btnFechar.setMaximumSize(QtCore.QSize(145, 40))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.btnCancelar.setFont(font)
-        self.btnCancelar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btnCancelar.setStyleSheet("QPushButton {\n"
+        self.btnFechar.setFont(font)
+        self.btnFechar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btnFechar.setStyleSheet("QPushButton {\n"
 "    box-shadow:inset 0px 1px 0px 0px #ffffff;\n"
 "    background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);\n"
 "    background-color:#ededed;\n"
@@ -171,7 +172,7 @@ class Ui_confServidor(object):
 "    border-bottom:1px solid #bdbdbd;\n"
 "    border-right:1px solid #bdbdbd;\n"
 "}")
-        self.btnCancelar.setObjectName("btnCancelar")
+        self.btnFechar.setObjectName("btnFechar")
         self.labelTitulo = QtWidgets.QLabel(self.centralwidget)
         self.labelTitulo.setGeometry(QtCore.QRect(30, 20, 341, 31))
         font = QtGui.QFont()
@@ -183,7 +184,7 @@ class Ui_confServidor(object):
         confServidor.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(confServidor)
-        self.btnCancelar.clicked.connect(confServidor.close) # type: ignore
+        self.btnFechar.clicked.connect(confServidor.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(confServidor)
 
     def retranslateUi(self, confServidor):
@@ -193,6 +194,6 @@ class Ui_confServidor(object):
         self.inputUsuario.setPlaceholderText(_translate("confServidor", "Nome de usuário"))
         self.inputSenha.setPlaceholderText(_translate("confServidor", "Senha"))
         self.btnSalvar.setText(_translate("confServidor", "Salvar"))
-        self.btnCancelar.setText(_translate("confServidor", "Fechar"))
-        self.btnCancelar.setShortcut(_translate("confServidor", "Esc"))
+        self.btnFechar.setText(_translate("confServidor", "Fechar"))
+        self.btnFechar.setShortcut(_translate("confServidor", "Esc"))
         self.labelTitulo.setText(_translate("confServidor", "Digite as credenciais de rede"))
