@@ -74,9 +74,7 @@ class App(QMainWindow, Ui_MainWindow):
     def teste_rede(self):
         x = 0
         while True:
-            print(fr'Valor de X {x}')
             teste = TesteRede.testeRede(self)
-            print(fr'Valor de teste {teste}')
             if teste == 0 and x == 0:
                 Imagem.backup_imagens_rede(self)
                 x = 1
