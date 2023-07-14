@@ -36,7 +36,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../imagens/icon.png</normaloff>../imagens/icon.png</iconset>
+    <normaloff>../icons/icon.png</normaloff>../icons/icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgba(220, 220, 220, 255)</string>

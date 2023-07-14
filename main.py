@@ -87,12 +87,12 @@ class App(QMainWindow, Ui_MainWindow):
             teste_camera = str(camera.detectar_camera())
             nome_camera = camera.nome_camera()
             if teste_camera == 'Conectada':
-                self.btnCapturar.setIcon(QIcon('imagens/cameraON.png'))
+                self.btnCapturar.setIcon(QIcon('templates/icons/cameraON.png'))
                 self.label_status.setText(f'Câmera {teste_camera}: {nome_camera}')
                 self.label_status.setStyleSheet('QLabel {background-color: rgba(131, 131, 131, 50); color: #000000}')
                 time.sleep(15)
             else:
-                self.btnCapturar.setIcon(QIcon('imagens/cameraOFF.png'))
+                self.btnCapturar.setIcon(QIcon('templates/icons/cameraOFF.png'))
                 self.label_status.setText('Câmera Desconectada')
                 self.label_status.setStyleSheet('QLabel {background-color: rgba(131, 131, 131, 50); color: #000000}')
                 time.sleep(3)
