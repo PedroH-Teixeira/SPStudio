@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/icon.png</normaloff>icons/icon.png</iconset>
+    <normaloff>../icons/icon.png</normaloff>../icons/icon.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -135,7 +135,7 @@ border-radius: 12%;</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>icons/LogoPrincipal.png</pixmap>
+          <pixmap>../icons/LogoPrincipal.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -278,7 +278,7 @@ border-radius: 12%;</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>icons/cameraOFF.png</normaloff>icons/cameraOFF.png</iconset>
+        <normaloff>../icons/cameraOFF.png</normaloff>../icons/cameraOFF.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -932,7 +932,7 @@ background-color: rgb(255, 255, 255);
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>icons/crop.png</normaloff>icons/crop.png</iconset>
+        <normaloff>../icons/crop.png</normaloff>../icons/crop.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -972,7 +972,7 @@ background-color: rgb(255, 255, 255);
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>icons/voltar.png</normaloff>icons/voltar.png</iconset>
+        <normaloff>../icons/voltar.png</normaloff>../icons/voltar.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -1012,7 +1012,7 @@ background-color: rgb(255, 255, 255);
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>icons/save.png</normaloff>icons/save.png</iconset>
+        <normaloff>../icons/save.png</normaloff>../icons/save.png</iconset>
       </property>
       <property name="iconSize">
        <size>

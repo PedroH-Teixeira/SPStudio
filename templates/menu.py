@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'menu.ui'
+# Form implementation generated from reading ui file 'templates/menu.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -24,7 +24,7 @@ class Ui_confServidor(object):
         confServidor.setMinimumSize(QtCore.QSize(410, 300))
         confServidor.setMaximumSize(QtCore.QSize(410, 300))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../icons/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("templates/../icons/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         confServidor.setWindowIcon(icon)
         confServidor.setStyleSheet("background-color: rgba(220, 220, 220, 255)")
         self.centralwidget = QtWidgets.QWidget(confServidor)
