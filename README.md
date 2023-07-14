@@ -5,13 +5,13 @@ Após compilar com <i>pyinstaller</i>, transferir as pastas "<i>icons</i>" e "<i
 
 Adicionar os seguintes valores em Variáveis de Ambiente do windows:
 
-<b>Path:</b> "Local do Programa"\library\bin
+<b>Path:</b> "Caminho do Programa"\library\bin
 
 <b>Nome da Variável:</b> CAMLIBS </br>
-<b>Valor da Variável: </b> "Local do Programa"\library\lib\libgphoto2\2.5.30
+<b>Valor da Variável: </b> "Caminho do Programa"\library\lib\libgphoto2\2.5.30
 
 <b>Nome da Variável:</b> IOLIBS </br>
-<b>Valor da Variável: </b> "Local do Programa"\library\lib\libgphoto2_port\0.12.1
+<b>Valor da Variável: </b> "Caminho do Programa"\library\lib\libgphoto2_port\0.12.1
 
 Alterar o driver da camera para o driver WinUSB usando o programa "zadig"
 
