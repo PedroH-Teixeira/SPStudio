@@ -13,3 +13,5 @@ Adicionar os seguintes valores em Variáveis de Ambiente do windows:
 <b>Nome da Variável:</b> IOLIBS </br>
 <b>Valor da Variável: </b> "Local do Programa"\library\lib\libgphoto2_port\0.12.1
 
+Alterar o driver da camera para o driver WinUSB usando o programa "zadig"
+
